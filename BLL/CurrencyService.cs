@@ -1,5 +1,4 @@
 ﻿using BLL.Contracts;
-using BLL.IO;
 using Contracts;
 using Dal.Models;
 using DAL.Contracts;
@@ -10,23 +9,13 @@ using System.Threading.Tasks;
 
 
 
-//namespace BLL
-//{
-//    public class CurrencyService : BaseService<CriptoCoinValue, int, CriptoCoinDto>, ICurrencyService
-//    {
-
-//        CurrencyService(ICurrencyRepository repository):base((ICrud<CriptoCoinValue, int, CriptoCoinDto>)repository){}
-//    }
-//}
-
-
-
 
 namespace BLL
 {
     public class CurrencyService : ICurrencyService
     {
         ICurrencyRepository _currencyRepository;
+
         public CurrencyService(ICurrencyRepository currencyRepository)
         {
             this._currencyRepository = currencyRepository;
@@ -62,12 +51,11 @@ namespace BLL
             return result;
         }
 
-        public void GetFileInfo()
+        public Task<bool> UploadFileAsync()
         {
-            string path = @"D:\big_data\testtt.txt";
-            BaseIO io = new BaseIO();
-            io.ReadLineFile(path);
 
+          
+            throw new NotImplementedException();
         }
     }
 }

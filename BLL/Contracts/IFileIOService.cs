@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BLL.Contracts
 {
-    interface IBaseIO
+    public interface IFileIOService<TOut, TDto>
     {
-        String ReadLineFile(String path);
+        public Task<TDto> SaveFileAsync(TOut uploadFile);
     }
 }

@@ -7,8 +7,10 @@ using BLL.Contracts;
 using DAL;
 using DAL.Contracts;
 using DAL.Repo;
+using DTO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -38,9 +40,11 @@ namespace MyWebIpi
             services.AddDbContext<CriptoCoinValueContext>(options =>
                 options.UseMySQL(connectionString));
 
+
             services.AddAutoMapper(new[] { typeof(MapperVM), typeof(MapperDAL) });
             services.AddScoped<ICurrencyRepository, CurrencyRepository>();//singlton?
             services.AddScoped<ICurrencyService, CurrencyService>();
+            services.AddScoped<IFileIOService<IFormFile, FileDto>, FileIOService>();
             services.AddCors();
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -57,6 +61,12 @@ namespace MyWebIpi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyWebIpi v1"));
             }
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                //FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"StaticFiles")),
+                RequestPath = new PathString("/StaticFiles")
+            });
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors(b=> b.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());

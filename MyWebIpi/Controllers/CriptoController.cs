@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BLL.Contracts;
 using DTO;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyWebApi.Models;
 
@@ -39,14 +42,6 @@ namespace MyWebIpi.Controllers
         }
 
 
-        [HttpGet]
-        [Route("test")]
-        public async Task<IActionResult> GetTest(int id)
-        {
-            currencyService.GetFileInfo();
-            return Ok(true);
-        }
-
         [HttpPost]
         public async Task<IActionResult> Post(CriptoCoinVM criptoCoinValues)
         {
@@ -69,7 +64,6 @@ namespace MyWebIpi.Controllers
             var resalt = await currencyService.UpdateAsync(criptoCoinDto);
             return Ok(resalt);
         }
-
 
     }
 
