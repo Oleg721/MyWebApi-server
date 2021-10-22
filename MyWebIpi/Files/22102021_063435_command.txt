@@ -1,0 +1,4 @@
+ffmpeg -i inp.mp4 -i tes.png -filter_complex "[1:v]scale=100:100[aaa];[0:v][aaa]overlay=100:100:enable='between(t,5,10)" result.mp4
+
+
+ffmpeg -accurate_seek -i "IMG_8234.MOV" -preset ultrafast -profile:v baseline -vf scale=1080:1920 "output.mp4"
