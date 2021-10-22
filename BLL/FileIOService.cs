@@ -11,18 +11,17 @@ namespace BLL
     public class FileIOService : IFileIOService<IFormFile, FileDto>
     {
         IWebHostEnvironment _hostEnvironment;
-        public FileIOService(IWebHostEnvironment environment)
+        IHttpContextAccessor _httpContextAccessor;
+        public FileIOService(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment environment )
         {
+            this._httpContextAccessor = httpContextAccessor;
             this._hostEnvironment = environment;
         }
 
         public async Task<FileDto> SaveFileAsync(IFormFile uploadedFile)
         {
-
-            // путь к папке Files
-            string path = "/Files/" + uploadedFile.FileName; /*+ "_" +  DateTime.Now.ToString("ddMMyyyy_hhmmss");*/
-            // сохраняем файл в папку Files в каталоге wwwroot
-            using (var fileStream = new FileStream(_hostEnvironment.WebRootPath + path, FileMode.Create))
+            string path = Path.Combine("/Files/", DateTime.Now.ToString("ddMMyyyy_hhmmss") + "_" + uploadedFile.FileName);
+            using (var fileStream = new FileStream(_hostEnvironment.ContentRootPath + path, FileMode.Create))
             {
                 await uploadedFile.CopyToAsync(fileStream);
             }

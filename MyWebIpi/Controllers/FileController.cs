@@ -18,25 +18,21 @@ namespace MyWebIpi.Controllers
     [Route("[controller]")]
     public class FileController : ControllerBase
     {
+        IHttpContextAccessor _httpContextAccessor;
         IFileIOService<IFormFile, FileDto> _fileIOService;
-        public FileController(IFileIOService<IFormFile, FileDto> fileIOService,IMapper mapper) 
+        public FileController(IHttpContextAccessor httpContextAccessor,IFileIOService<IFormFile, FileDto> fileIOService,IMapper mapper) 
         {
+            this._httpContextAccessor = httpContextAccessor;
             this._fileIOService = fileIOService;
         }
 
-
         [HttpPost]
-        public async Task<IActionResult> UploadFile(IFormFile uploadedFile)
+        //  [RequestSizeLimit(5_000_000)]
+        public async Task<IActionResult> AddFile(IFormFile uploadedFile)
         {
-            Console.WriteLine("UPLOAD_FILE");
-            if (uploadedFile != null)
-            {
-                String i = uploadedFile.FileName;
-            }
-            //   var resalt = await _fileIOService.SaveFileAsync(uploadedFile);
-            return Ok(null);
+            await _fileIOService.SaveFileAsync(uploadedFile);
+            return Ok("Index");
         }
-
 
     }
 

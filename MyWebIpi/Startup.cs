@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +11,7 @@ using DTO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -35,12 +36,16 @@ namespace MyWebIpi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration["ConnectionStrings:DefaultConnection"];
-  
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            int multipartBodyLengthLimit = Int32.Parse(Configuration["Limits:MultipartBodyLengthLimit"]);
+           
+            services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = multipartBodyLengthLimit;//to do make to conf//
+            });
             services.AddDbContext<CriptoCoinValueContext>(options =>
                 options.UseMySQL(connectionString));
-
-
+            services.AddHttpContextAccessor();
             services.AddAutoMapper(new[] { typeof(MapperVM), typeof(MapperDAL) });
             services.AddScoped<ICurrencyRepository, CurrencyRepository>();//singlton?
             services.AddScoped<ICurrencyService, CurrencyService>();
@@ -61,16 +66,17 @@ namespace MyWebIpi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyWebIpi v1"));
             }
-            app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                //FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"StaticFiles")),
-                RequestPath = new PathString("/StaticFiles")
-            });
+         //   app.UseStaticFiles();
+            //app.UseStaticFiles(new StaticFileOptions()
+            //{
+            //    //FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"StaticFiles")),
+            //    RequestPath = new PathString("/StaticFiles")
+            //});
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors(b=> b.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
             app.UseAuthorization();
+    
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
