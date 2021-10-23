@@ -20,10 +20,14 @@ namespace BLL
 
         public async Task<FileDto> SaveFileAsync(IFormFile uploadedFile)
         {
-            string path = Path.Combine("/Files/", DateTime.Now.ToString("ddMMyyyy_hhmmss") + "_" + uploadedFile.FileName);
-            using (var fileStream = new FileStream(_hostEnvironment.ContentRootPath + path, FileMode.Create))
+            if (uploadedFile != null)
             {
-                await uploadedFile.CopyToAsync(fileStream);
+                string path = Path.Combine("/Files/", DateTime.Now.ToString("ddMMyyyy_hhmmss") + "_" + uploadedFile.FileName);
+                using (var fileStream = new FileStream(_hostEnvironment.ContentRootPath + path, FileMode.Create))
+                {
+                    await uploadedFile.CopyToAsync(fileStream);
+                }
+             
             }
             return null;
         }
