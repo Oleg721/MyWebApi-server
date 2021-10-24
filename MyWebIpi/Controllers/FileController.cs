@@ -27,10 +27,12 @@ namespace MyWebIpi.Controllers
         }
 
         [HttpPost]
-        //  [RequestSizeLimit(5_000_000)]
+    //    [RequestSizeLimit(80_000_000)]
+     //    [RequestFormLimits(ValueLengthLimit = 80_000_000, MultipartBodyLengthLimit = 80_000_000)]
         public async Task<IActionResult> AddFile(IFormFile uploadedFile)
         {
             await _fileIOService.SaveFileAsync(uploadedFile);
+     
             return Ok("Index");
         }
 

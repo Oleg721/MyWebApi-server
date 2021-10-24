@@ -27,7 +27,6 @@ namespace BLL
                 {
                     await uploadedFile.CopyToAsync(fileStream);
                 }
-             
             }
             return null;
         }

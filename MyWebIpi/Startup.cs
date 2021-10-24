@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,12 +38,21 @@ namespace MyWebIpi
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            int maxRequestBodySize = Int32.Parse(Configuration["Limits:MaxRequestBodySize"]);
             int multipartBodyLengthLimit = Int32.Parse(Configuration["Limits:MultipartBodyLengthLimit"]);
-           
+            int valueLengthLimit = Int32.Parse(Configuration["Limits:ValueLengthLimit"]);
+
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                Console.WriteLine(options);
+                options.Limits.MaxRequestBodySize = maxRequestBodySize;
+            });
             services.Configure<FormOptions>(options =>
             {
-                options.MultipartBodyLengthLimit = multipartBodyLengthLimit;//to do make to conf//
+               options.ValueLengthLimit = valueLengthLimit;
+               options.MultipartBodyLengthLimit = maxRequestBodySize;
             });
+
             services.AddDbContext<CriptoCoinValueContext>(options =>
                 options.UseMySQL(connectionString));
             services.AddHttpContextAccessor();
