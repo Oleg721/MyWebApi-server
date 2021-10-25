@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Dal.Models;
 using DTO;
 using MyWebApi.Models;
 
@@ -13,7 +14,9 @@ namespace DAL
 
         private static void MapConfig(IProfileExpression cfg)
         {
-            cfg.CreateMap<CriptoCoinVM, CriptoCoinDto>().ReverseMap();
+            cfg.CreateMap<CurrencyVM, CurrencyDto>().ReverseMap();
+            cfg.CreateMap<CurrencyHystoryVM, CurrencyHistoryDto>().ReverseMap();
+
         }
     }
 }

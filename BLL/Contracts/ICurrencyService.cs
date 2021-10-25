@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Contracts
 {
-    public interface ICurrencyService : ICrud<CriptoCoinValue, int, CriptoCoinDto>
+    public interface ICurrencyService : ICrud<CurrencyValue, int, CurrencyDto>
     {
 
     }

@@ -1,6 +1,4 @@
 ﻿using BLL.Contracts;
-using Contracts;
-using Dal.Models;
 using DAL.Contracts;
 using DTO;
 using System;
@@ -21,19 +19,19 @@ namespace BLL
             this._currencyRepository = currencyRepository;
         }
 
-        public async Task<List<CriptoCoinDto>> GetAsync()
+        public async Task<List<CurrencyDto>> GetAsync()
         {
             var result = await _currencyRepository.GetAsync();
             return result;
         }
 
-        public async Task<CriptoCoinDto> GetAsync(int id)
+        public async Task<CurrencyDto> GetAsync(int id)
         {
             var result = await _currencyRepository.GetAsync(id);
             return result;
         }
 
-        public async Task<int> CreateAsync(CriptoCoinDto item)
+        public async Task<int> CreateAsync(CurrencyDto item)
         {
             var result = await _currencyRepository.CreateAsync(item);
             return result;
@@ -45,7 +43,7 @@ namespace BLL
             return result;
         }
 
-        public async Task<bool> UpdateAsync(CriptoCoinDto item)
+        public async Task<bool> UpdateAsync(CurrencyDto item)
         {
             var result = await _currencyRepository.UpdateAsync(item);
             return result;
@@ -53,8 +51,6 @@ namespace BLL
 
         public Task<bool> UploadFileAsync()
         {
-
-          
             throw new NotImplementedException();
         }
     }

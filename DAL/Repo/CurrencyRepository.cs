@@ -6,9 +6,9 @@ using MyWebIpi.Contexts;
 
 namespace DAL.Repo
 {
-    public class CurrencyRepository : BaseRepository<CriptoCoinValue, int, CriptoCoinDto>, ICurrencyRepository
+    public class CurrencyRepository : BaseRepository<CurrencyValue, int, CurrencyDto>, ICurrencyRepository
     {
-        public CurrencyRepository(CriptoCoinValueContext context, IMapper mapper) : base(context, mapper)
+        public CurrencyRepository(CurrencyContext context, IMapper mapper) : base(context, mapper)
         {
         }
     }

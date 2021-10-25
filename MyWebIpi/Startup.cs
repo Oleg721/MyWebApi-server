@@ -53,13 +53,15 @@ namespace MyWebIpi
                options.MultipartBodyLengthLimit = maxRequestBodySize;
             });
 
-            services.AddDbContext<CriptoCoinValueContext>(options =>
+            services.AddDbContext<CurrencyContext>(options =>
                 options.UseMySQL(connectionString));
             services.AddHttpContextAccessor();
             services.AddAutoMapper(new[] { typeof(MapperVM), typeof(MapperDAL) });
-            services.AddScoped<ICurrencyRepository, CurrencyRepository>();//singlton?
+            services.AddScoped<ICurrencyHistoryRepository, CurrencyHistoryRepository>();//singlton?
+            services.AddScoped<ICurrencyHistoryService, CurrencyHistoryService>();
             services.AddScoped<ICurrencyService, CurrencyService>();
-            services.AddScoped<IFileIOService<IFormFile, FileDto>, FileIOService>();
+            services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+            services.AddScoped<ICurrentFileIOService, CurrencyFileIOService>();
             services.AddCors();
             services.AddControllers();
             services.AddSwaggerGen(c =>

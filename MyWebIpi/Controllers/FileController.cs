@@ -19,11 +19,26 @@ namespace MyWebIpi.Controllers
     public class FileController : ControllerBase
     {
         IHttpContextAccessor _httpContextAccessor;
-        IFileIOService<IFormFile, FileDto> _fileIOService;
-        public FileController(IHttpContextAccessor httpContextAccessor,IFileIOService<IFormFile, FileDto> fileIOService,IMapper mapper) 
+        ICurrentFileIOService _fileIOService;
+        public FileController(IHttpContextAccessor httpContextAccessor, ICurrentFileIOService fileIOService, IMapper mapper)
         {
             this._httpContextAccessor = httpContextAccessor;
             this._fileIOService = fileIOService;
+        }
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            List<FileDto> result = _fileIOService.Get();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("convert")]
+        public IActionResult convertFile()
+        {
+            List<FileDto> result = _fileIOService.Get();
+            return Ok(result);
         }
 
         [HttpPost]
@@ -31,7 +46,7 @@ namespace MyWebIpi.Controllers
      //    [RequestFormLimits(ValueLengthLimit = 80_000_000, MultipartBodyLengthLimit = 80_000_000)]
         public async Task<IActionResult> AddFile(IFormFile uploadedFile)
         {
-            await _fileIOService.SaveFileAsync(uploadedFile);
+            await _fileIOService.CreateAsync(uploadedFile);
      
             return Ok("Index");
         }

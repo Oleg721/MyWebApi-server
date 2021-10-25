@@ -15,9 +15,9 @@ namespace DAL.Repo
     public class BaseRepository<T, TId, TDto> : ICrud<T, TId, TDto>
         where T : BaseEntity<TId>
     {
-        protected CriptoCoinValueContext _context;
+        protected CurrencyContext _context;
         protected IMapper _mapper;
-        public BaseRepository(CriptoCoinValueContext context, IMapper mapper)
+        public BaseRepository(CurrencyContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -37,7 +37,7 @@ namespace DAL.Repo
             TDto result = _mapper.Map<TDto>(dbResult);
             return result;
         }
-        public async Task<TId> CreateAsync(TDto item)
+        public virtual async Task<TId> CreateAsync(TDto item)
         {
             T newDbItem = _mapper.Map<T>(item);
             _context.Set<T>().Add(newDbItem);

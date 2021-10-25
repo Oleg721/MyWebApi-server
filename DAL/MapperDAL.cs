@@ -18,7 +18,8 @@ namespace DAL
 
         private static void MapConfig(IProfileExpression cfg)
         {
-            cfg.CreateMap<CriptoCoinValue, CriptoCoinDto>().ReverseMap();
+            cfg.CreateMap<CurrencyValue, CurrencyDto>().ReverseMap();
+            cfg.CreateMap<CurrencyHistoryValue, CurrencyHistoryDto>().ReverseMap();
         }
     }
 }

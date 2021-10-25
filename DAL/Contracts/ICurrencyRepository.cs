@@ -4,7 +4,7 @@ using Contracts;
 
 namespace DAL.Contracts
 {
-    public interface ICurrencyRepository : ICrud<CriptoCoinValue, int, CriptoCoinDto>
+    public interface ICurrencyRepository : ICrud<CurrencyValue, int, CurrencyDto>
     {
     }
 }
